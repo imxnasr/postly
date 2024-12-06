@@ -4,6 +4,21 @@ export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{js,ts,jsx,tsx,mdx}", "./components/**/*.{js,ts,jsx,tsx,mdx}", "./app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
+    fontFamily: {
+      lobster: ["var(--font-lobster)", "var(--font-geist-sans)", "system-ui"],
+      geistSans: ["var(--font-geist-sans)"],
+      geistMono: ["var(--font-geist-mono)"],
+    },
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: "1rem",
+        sm: "2rem",
+        lg: "4rem",
+        xl: "5rem",
+        "2xl": "6rem",
+      },
+    },
     extend: {
       borderRadius: {
         lg: "var(--radius)",
