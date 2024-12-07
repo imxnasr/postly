@@ -1,9 +1,17 @@
-import { Button } from "@/components/ui";
+import { Post } from "@/components/Post";
 
 export default () => {
   return (
-    <div>
-      <Button variant={"default"}>Hello</Button>
+    <div className="space-y-4">
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post />
     </div>
   );
 };
