@@ -4,11 +4,8 @@ import { Logo } from "./Logo";
 import { Menu } from "lucide-react";
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui";
 import { navLinks } from "@/utils/settings";
-import { twMerge } from "tailwind-merge";
 
 interface NavbarProps {}
-
-const navHight = 14;
 
 export const Navbar: FC<NavbarProps> = () => {
   return (
@@ -38,7 +35,6 @@ export const Navbar: FC<NavbarProps> = () => {
               </div>
             </DrawerContent>
           </Drawer>
-          {/* <Menu /> */}
         </div>
       </nav>
     </>

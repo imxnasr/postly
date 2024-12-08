@@ -1,13 +1,18 @@
+"use client";
+
 import { FC } from "react";
 import { Avatar, AvatarFallback, AvatarImage, Badge, Card, HoverCard, HoverCardContent, HoverCardTrigger } from "./ui";
 import { Bookmark, Heart, MessageSquare } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { ActionBtn } from "./post/ActionBtn";
 
 interface PostProps {}
 
 const iconSize = 22;
 
 export const Post: FC<PostProps> = () => {
+  const router = useRouter();
   return (
     <Card className="bg-card p-4">
       {/* Header */}
@@ -20,9 +25,9 @@ export const Post: FC<PostProps> = () => {
           {/* Texts */}
           <div className="flex flex-col">
             <HoverCardTrigger>
-              <Link href="/profile/shadcn">
-                <div className="text-xl font-bold -mb-1 hover:underline">Shadcn</div>
-              </Link>
+              <div onClick={() => router.push("/post/1")} className="text-xl font-bold -mb-1 hover:underline cursor-pointer">
+                Shadcn
+              </div>
             </HoverCardTrigger>
             <div className="text-sm">@shadcn</div>
           </div>
@@ -56,12 +61,15 @@ export const Post: FC<PostProps> = () => {
         <Badge variant="outline">supabase</Badge>
       </div>
       {/* Actions */}
-      <div className="flex items-center justify-between text-sm px-1">
-        <div className="flex gap-2 items-center">
-          <Heart size={iconSize} />
-          <MessageSquare size={iconSize} />
+      <div className="flex items-center justify-between text-sm">
+        <div className="flex gap-2 items-center mt-3">
+          <ActionBtn name="Like" num={100} Icon={Heart} />
+          <ActionBtn name="Comment" num={37} Icon={MessageSquare} />
+          {/* <Heart size={iconSize} />
+          <MessageSquare size={iconSize} /> */}
         </div>
-        <Bookmark size={iconSize} />
+        <ActionBtn name="Bookmark" num={37} Icon={Bookmark} />
+        {/* <Bookmark size={iconSize} /> */}
       </div>
     </Card>
   );
