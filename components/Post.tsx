@@ -61,15 +61,12 @@ export const Post: FC<PostProps> = () => {
         <Badge variant="outline">supabase</Badge>
       </div>
       {/* Actions */}
-      <div className="flex items-center justify-between text-sm">
-        <div className="flex gap-2 items-center mt-3">
+      <div className="flex items-center justify-between text-sm mt-3">
+        <div className="flex gap-2 items-center">
           <ActionBtn name="Like" num={100} Icon={Heart} />
           <ActionBtn name="Comment" num={37} Icon={MessageSquare} />
-          {/* <Heart size={iconSize} />
-          <MessageSquare size={iconSize} /> */}
         </div>
         <ActionBtn name="Bookmark" num={37} Icon={Bookmark} />
-        {/* <Bookmark size={iconSize} /> */}
       </div>
     </Card>
   );
