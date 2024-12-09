@@ -43,15 +43,10 @@ export const Post: FC<PostProps> = () => {
       </HoverCard>
       {/* Title */}
       <Link href="/post/1">
-        <h1 className="text-lg font-bold mb-2">Is Friday really an exciting day?🎉🥳</h1>
+        <h1 className="text-lg font-bold mb-2 line-clamp-3">Is Friday really an exciting day?🎉🥳</h1>
       </Link>
-      {/* Tags */}
-      <div className="flex items-center gap-2 *:text-xs *:rounded-full overflow-hidden *:cursor-default mb-2">
-        <Badge variant="outline">react</Badge>
-        <Badge variant="outline">nextjs</Badge>
-        <Badge variant="outline">tailwindcss</Badge>
-        <Badge variant="outline">supabase</Badge>
-      </div>
+      {/* Content */}
+      <div className="text-md line-clamp-3 leading-5 text-muted-foreground">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores atque aspernatur quod reiciendis modi. Ipsum iusto aliquam voluptas et magnam in nesciunt fugit accusamus, tempora saepe dolores dolore doloribus beatae exercitationem, dignissimos reprehenderit deserunt aperiam repudiandae maiores, eum similique. Dolorem ratione quisquam porro natus molestias alias sequi voluptatem magnam provident?</div>
       {/* Actions */}
       <div className="flex items-center justify-between text-sm mt-3">
         <div className="flex gap-2 items-center">
