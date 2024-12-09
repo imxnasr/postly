@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Avatar, AvatarFallback, AvatarImage, Badge, Card, HoverCard, HoverCardContent, HoverCardTrigger } from "./ui";
+import { Avatar, AvatarFallback, AvatarImage, Card, HoverCard, HoverCardContent, HoverCardTrigger } from "./ui";
 import { Bookmark, Heart, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { ActionBtn } from "./post/ActionBtn";
