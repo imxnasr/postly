@@ -1,18 +1,12 @@
-"use client";
-
 import { FC } from "react";
 import { Avatar, AvatarFallback, AvatarImage, Badge, Card, HoverCard, HoverCardContent, HoverCardTrigger } from "./ui";
 import { Bookmark, Heart, MessageSquare } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { ActionBtn } from "./post/ActionBtn";
 
 interface PostProps {}
 
-const iconSize = 22;
-
 export const Post: FC<PostProps> = () => {
-  const router = useRouter();
   return (
     <Card className="bg-card p-4">
       {/* Header */}
@@ -24,10 +18,8 @@ export const Post: FC<PostProps> = () => {
           </Avatar>
           {/* Texts */}
           <div className="flex flex-col">
-            <HoverCardTrigger>
-              <div onClick={() => router.push("/post/1")} className="text-xl font-bold -mb-1 hover:underline cursor-pointer">
-                Shadcn
-              </div>
+            <HoverCardTrigger href="/post/1" className="text-xl font-bold -mb-1 hover:underline cursor-pointer">
+              Shadcn
             </HoverCardTrigger>
             <div className="text-sm">@shadcn</div>
           </div>
