@@ -11,8 +11,7 @@ interface ActionBtnProps {
 export const ActionBtn: FC<ActionBtnProps> = ({ name, num, Icon }) => {
   return (
     <TooltipProvider>
-      <Tooltip>
-        {/* <TooltipTrigger variant={"outline"} className="flex items-center gap-1 rounded-full px-2 border-none shadow-none" onClick={() => console.log("Action button clicked")}> */}
+      <Tooltip delayDuration={100}>
         <TooltipTrigger asChild>
           <Button variant={"outline"} className="flex items-center gap-1 rounded-full px-2 border-none shadow-none">
             <Icon size={20} />
