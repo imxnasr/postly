@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FC } from "react";
 import { Logo } from "./Logo";
 import { Menu } from "lucide-react";
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui";
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui";
 import { navLinks } from "@/utils/settings";
 
 interface NavbarProps {}
@@ -28,9 +28,11 @@ export const Navbar: FC<NavbarProps> = () => {
               {/* Links */}
               <div className="flex flex-col gap-8 *:text-3xl">
                 {navLinks.map((link, idx) => (
-                  <Link className="w-fit" key={idx} href={link.href}>
-                    {link.name}
-                  </Link>
+                  <DrawerClose asChild>
+                    <Link className="w-fit" key={idx} href={link.href}>
+                      {link.name}
+                    </Link>
+                  </DrawerClose>
                 ))}
               </div>
             </DrawerContent>
