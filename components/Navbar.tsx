@@ -28,8 +28,8 @@ export const Navbar: FC<NavbarProps> = () => {
               {/* Links */}
               <div className="flex flex-col gap-8 *:text-3xl">
                 {navLinks.map((link, idx) => (
-                  <DrawerClose asChild>
-                    <Link className="w-fit" key={idx} href={link.href}>
+                  <DrawerClose asChild key={idx}>
+                    <Link className="w-fit" href={link.href}>
                       {link.name}
                     </Link>
                   </DrawerClose>
