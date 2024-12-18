@@ -2,7 +2,7 @@ import { Button, Input, Textarea } from "@/components/ui";
 
 export default () => {
   return (
-    <div className="">
+    <div className="max-w-xl m-auto">
       {/* <Card className="p-4 max-w-xl m-auto"> */}
       <h3 className="text-2xl font-bold mb-5">User</h3>
       {/* Inputs */}
