@@ -5,3 +5,4 @@ export * from "./Badge";
 export * from "./Card";
 export * from "./HoverCard";
 export * from "./Input";
+export * from "./Textarea";
