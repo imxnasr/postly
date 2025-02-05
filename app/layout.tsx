@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 import { Navbar } from "@/components/Navbar";
+import { getTheme } from "./actions";
+import { cn } from "@/lib/utils";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,14 +27,17 @@ export const metadata: Metadata = {
   description: "Postly. For writing.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const theme = await getTheme();
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} ${lobster.variable} antialiased`}>
+      <body
+        className={cn(`${theme || ""} ${geistSans.variable} ${geistMono.variable} ${lobster.variable} antialiased`)}
+      >
         <Navbar />
         <div className="container">{children}</div>
       </body>

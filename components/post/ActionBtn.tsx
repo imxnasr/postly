@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Button } from "../ui";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/Tooltip";
 
-interface ActionBtnProps {
+interface ActionBtnProps extends React.ComponentPropsWithoutRef<"button"> {
   name: string;
   num: number;
   Icon: any;

@@ -46,7 +46,12 @@ export const Post: FC<PostProps> = () => {
         <h1 className="text-lg font-bold mb-2">Is Friday really an exciting day?🎉🥳</h1>
       </Link>
       {/* Content */}
-      <div className="text-md line-clamp-3 leading-5 text-muted-foreground my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores atque aspernatur quod reiciendis modi. Ipsum iusto aliquam voluptas et magnam in nesciunt fugit accusamus, tempora saepe dolores dolore doloribus beatae exercitationem, dignissimos reprehenderit deserunt aperiam repudiandae maiores, eum similique. Dolorem ratione quisquam porro natus molestias alias sequi voluptatem magnam provident?</div>
+      <div className="text-md line-clamp-3 leading-5 text-muted-foreground my-2">
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores atque aspernatur quod reiciendis modi. Ipsum
+        iusto aliquam voluptas et magnam in nesciunt fugit accusamus, tempora saepe dolores dolore doloribus beatae
+        exercitationem, dignissimos reprehenderit deserunt aperiam repudiandae maiores, eum similique. Dolorem ratione
+        quisquam porro natus molestias alias sequi voluptatem magnam provident?
+      </div>
       {/* Tags */}
       <div className="flex items-center gap-2 *:text-xs *:rounded-full overflow-auto *:cursor-default mb-2 scrollbar-none">
         <Badge variant="outline">react</Badge>
