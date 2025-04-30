@@ -8,17 +8,17 @@ interface PostProps {}
 
 export const Post: FC<PostProps> = () => {
   return (
-    <Card className="bg-card p-4">
+    <Card className="p-4">
       {/* Header */}
       <HoverCard>
         <div className="flex items-center gap-2 mb-3">
-          <Avatar>
+          <Avatar className="size-10">
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>IM</AvatarFallback>
           </Avatar>
           {/* Texts */}
           <div className="flex flex-col">
-            <HoverCardTrigger href="/post/1" className="text-xl font-bold -mb-1 hover:underline cursor-pointer">
+            <HoverCardTrigger href="/@shadcn" className="text-xl font-bold -mb-1 hover:underline cursor-pointer">
               Shadcn
             </HoverCardTrigger>
             <div className="text-sm">@shadcn</div>
