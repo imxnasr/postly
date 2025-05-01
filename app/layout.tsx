@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Lobster } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
+import { ThemeProvider } from "next-themes";
 
 const lobster = Lobster({
   variable: "--font-lobster",
@@ -30,10 +31,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${lobster.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Navbar />
-        <div className="container">{children}</div>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <Navbar />
+          <div className="container">{children}</div>
+        </ThemeProvider>
       </body>
     </html>
   );
