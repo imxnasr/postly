@@ -1,9 +1,9 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Lobster } from "next/font/google";
-import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 
-const lobsterTwo = Lobster({
+const lobster = Lobster({
   variable: "--font-lobster",
   weight: "400",
   subsets: ["latin"],
@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${lobsterTwo.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${lobster.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Navbar />
         <div className="container">{children}</div>
       </body>
