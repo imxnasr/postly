@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui";
-import { formatNumber } from "@/utils/formatters";
+import { formatNumber } from "@/lib/formatters";
 
 interface ActionBtnProps extends React.ComponentPropsWithoutRef<"button"> {
   name: string;

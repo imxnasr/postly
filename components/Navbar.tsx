@@ -11,7 +11,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui";
-import { navLinks } from "@/utils/settings";
+import { navLinks } from "@/lib/config";
 
 interface NavbarProps {}
 
