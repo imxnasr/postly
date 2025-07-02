@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1745077010113,
-      "tag": "0000_normal_puck",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1745437577921,
-      "tag": "0001_sweet_expediter",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1745438850951,
-      "tag": "0002_spooky_skaar",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1745441414968,
-      "tag": "0003_tranquil_professor_monster",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1745441745708,
-      "tag": "0004_nifty_husk",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1745441861128,
-      "tag": "0005_silky_aqueduct",
+      "when": 1750884492046,
+      "tag": "0000_friendly_leper_queen",
       "breakpoints": true
     }
   ]

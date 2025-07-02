@@ -1,30 +1,49 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useActionState, useEffect } from "react";
 import { Button, Input } from "@/components/ui";
-import { register } from "../actions/register";
-import { useActionState } from "react";
+import { register } from "@/actions/register";
 import { Loader } from "@/components/Loader";
-import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { redirect } from "next/navigation";
 
-const initialState: any = {
-  success: false,
-  message: "",
-};
+const initialState: any = { success: false, message: "", errors: {}, inputs: {} };
 
 export default () => {
   const [state, action, isPending] = useActionState(register, initialState);
-  const router = useRouter();
   useEffect(() => {
     if (state.success) {
-      router.push("/login");
+      toast.success(state.message);
+      redirect("/");
+    } else {
+      if (state.message) {
+        toast.error(state.message);
+      }
     }
-  }, [state.success]);
+  }, [state]);
   return (
     <form action={action} className="max-w-xl m-auto mt-8" autoComplete="on">
       <h3 className="text-2xl font-bold mb-5">Register</h3>
       {/* Inputs */}
       <div className="space-y-3">
+        {/* Name Input */}
+        <div className="grid w-full items-center gap-1.5">
+          <label htmlFor="name">Name</label>
+          <Input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Name"
+            aria-describedby="name-error"
+            defaultValue={state?.inputs?.name}
+            className={!isPending && state?.errors?.name ? "border-red-500" : ""}
+          />
+          {!isPending && state?.errors?.name && (
+            <p id="name-error" className="text-red-500 text-sm">
+              {state.errors.name}
+            </p>
+          )}
+        </div>
         {/* Username Input */}
         <div className="grid w-full items-center gap-1.5">
           <label htmlFor="username">Username</label>
@@ -32,10 +51,9 @@ export default () => {
             id="username"
             name="username"
             type="text"
-            required
             placeholder="Username"
             aria-describedby="username-error"
-            defaultValue={state.inputs?.username}
+            defaultValue={state?.inputs?.username}
             className={!isPending && state?.errors?.username ? "border-red-500" : ""}
           />
           {!isPending && state?.errors?.username && (
@@ -51,10 +69,9 @@ export default () => {
             id="email"
             name="email"
             type="email"
-            required
             placeholder="Email"
             aria-describedby="email-error"
-            defaultValue={state.inputs?.email}
+            defaultValue={state?.inputs?.email}
             className={!isPending && state?.errors?.email ? "border-red-500" : ""}
           />
           {!isPending && state?.errors?.email && (
@@ -70,10 +87,9 @@ export default () => {
             id="password"
             name="password"
             type="password"
-            required
             placeholder="Password"
             aria-describedby="password-error"
-            defaultValue={state.inputs?.password}
+            defaultValue={state?.inputs?.password}
             className={!isPending && state?.errors?.password ? "border-red-500" : ""}
           />
           {!isPending && state?.errors?.password && (
@@ -83,7 +99,7 @@ export default () => {
           )}
         </div>
       </div>
-      <Button type="submit" className="w-full mt-6">
+      <Button type="submit" className="w-full mt-6" disabled={isPending}>
         {isPending ? <Loader /> : "Register"}
       </Button>
     </form>

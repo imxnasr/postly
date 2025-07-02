@@ -1,3 +1,9 @@
+# Postly
+
+Postly is a modern blogging platform built with Next.js, TypeScript, and Drizzle ORM. It features a sleek design, user authentication, and a rich text editor for creating and managing blog posts
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
