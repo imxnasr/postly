@@ -6,5 +6,3 @@ export const { signIn, signUp, signOut, getSession, useSession } = createAuthCli
   baseURL: process.env.NEXT_PUBLIC_APP_URL!,
   plugins: [usernameClient(), inferAdditionalFields<typeof auth>()],
 });
-
-export const session = await getSession();
