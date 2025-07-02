@@ -6,6 +6,7 @@ import { register } from "@/actions/register";
 import { Loader } from "@/components/Loader";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 const initialState: any = { success: false, message: "", errors: {}, inputs: {} };
 
@@ -99,6 +100,12 @@ export default () => {
           )}
         </div>
       </div>
+      <p className="text-muted-foreground text-sm mt-2">
+        Already have an account?{" "}
+        <Link href="/login" className="text-foreground hover:underline">
+          Login
+        </Link>
+      </p>
       <Button type="submit" className="w-full mt-6" disabled={isPending}>
         {isPending ? <Loader /> : "Register"}
       </Button>

@@ -2,7 +2,6 @@
 
 import { auth } from "@/lib/auth";
 import { APIError } from "better-auth/api";
-import { NextResponse } from "next/server";
 
 interface RegisterResponse {
   success: boolean;

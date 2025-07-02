@@ -1,41 +1,77 @@
 "use server";
 
-import { db } from "@/db";
-import { user } from "@/db/schema";
-import { ilike } from "drizzle-orm";
+import { auth } from "@/lib/auth";
+import { APIError } from "better-auth/api";
 
-export const login = async (_: any, formData: FormData) => {
-  console.log("Login action called");
+interface LoginResponse {
+  success: boolean;
+  message?: string;
+  errors: {
+    name?: string;
+    username?: string;
+    email?: string;
+    password?: string;
+  };
+  inputs?: {
+    name?: string;
+    username?: string;
+    email?: string;
+    password?: string;
+  };
+}
+
+export const login = async (_: any, formData: FormData): Promise<LoginResponse> => {
+  const body = {
+    text: formData.get("text") as string,
+    password: formData.get("password") as string,
+  };
+
+  // check if this text is email or username
+
+  let result: LoginResponse = {
+    success: true,
+    errors: {},
+    inputs: body,
+  };
+
   // Get form data
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
 
-  if (!email || !password) {
-    return { success: false, message: "Email and password are required" };
+  if (!result.success) {
+    return result;
   }
 
-  // Check if user exists
-  const userData = await db.select().from(user).where(ilike(user.email, email));
-
-  // If user doesn't exist, return error
-  // if (user.length === 0) {
-  //   return { success: false, errors: { email: "User not found" }, inputs: { email, password } };
-  // }
-
-  // Check if password is correct
-  // const passwordCorrect = await checkPassword(password, user[0].password);
-  // if (!passwordCorrect) {
-  //   return { success: false, errors: { password: "Incorrect password" }, inputs: { email, password } };
-  // }
-
-  // Better Auth Login
-  // const { data, error } = await authClient.signIn.email({
-  //   email,
-  //   password,
-  //   callbackURL: "/",
-  //   rememberMe: true,
-  // });
-  // console.log(data, error);
-  // return;
-  return { success: true, message: "Logged in successfully" };
+  try {
+    if (body.text.includes("@")) {
+      await auth.api.signInEmail({
+        body: {
+          email: body.text,
+          password: body.password,
+        },
+      });
+    } else {
+      await auth.api.signInUsername({
+        body: {
+          username: body.text,
+          password: body.password,
+        },
+      });
+    }
+  } catch (error) {
+    if (error instanceof APIError) {
+      return {
+        success: false,
+        message: error.body?.message + "." || "",
+        errors: {},
+        inputs: body,
+      };
+    } else {
+      return {
+        success: false,
+        message: "Something went wrong.",
+        errors: {},
+        inputs: body,
+      };
+    }
+  }
+  return { success: true, message: "Logged in successfully", errors: {} };
 };
