@@ -6,6 +6,7 @@ import { login } from "@/actions/login";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { Loader } from "@/components/Loader";
 
 const initialState: any = { success: false, message: "", errors: {}, inputs: {} };
 
@@ -70,7 +71,7 @@ export default () => {
         </Link>
       </p>
       <Button type="submit" className="w-full mt-6" disabled={isPending}>
-        Login
+        {isPending ? <Loader /> : "Login"}
       </Button>
     </form>
   );
