@@ -8,6 +8,13 @@
       "when": 1751961780821,
       "tag": "0000_magical_madame_web",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1752007593458,
+      "tag": "0001_careful_rattler",
+      "breakpoints": true
     }
   ]
 }

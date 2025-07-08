@@ -70,3 +70,8 @@ export const post = pgTable("post", {
   title: text("title").notNull(),
   content: text("content").notNull(),
 });
+
+export const tag = pgTable("tag", {
+  ...properties,
+  name: text("name").notNull(),
+});
