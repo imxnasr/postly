@@ -28,7 +28,6 @@ export const Logout = () => {
         },
       },
     });
-    setIsLoading(false);
   };
   return (
     <Dialog>

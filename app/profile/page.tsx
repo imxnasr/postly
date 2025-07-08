@@ -1,54 +1,67 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { Button, Input, Textarea } from "@/components/ui";
-import { getSession, signOut, useSession } from "@/lib/auth-client";
 import { Loader } from "@/components/Loader";
-import { useRouter } from "next/navigation";
 import { Logout } from "@/components/Logout";
+import { Button, Input, Separator, Textarea } from "@/components/ui";
+import { useSession } from "@/lib/auth-client";
+import { useEffect, useState } from "react";
 
 export default () => {
-  const router = useRouter();
   // const [state, action, isPending] = useActionState(login, initialState);
-  // const { data: session, error, isPending: isSessionPending } = useSession();
-  const { data: session } = useSession();
-  // console.log(session);
+  const { data: session, isPending: isSessionPending } = useSession();
+
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [bio, setBio] = useState("");
+
   useEffect(() => {
-    console.log("SESSION:", session);
+    if (session?.user) {
+      const userInfo = session.user;
+      setName(userInfo.name);
+      setUsername(userInfo.username || "");
+      setEmail(userInfo.email);
+      setBio(userInfo.bio || "");
+    }
   }, [session]);
 
+  if (isSessionPending)
+    return (
+      <div className=" mx-auto">
+        <Loader />
+      </div>
+    );
   return (
     <form className="max-w-xl m-auto mt-6">
-      {/* <Card className="p-4 max-w-xl m-auto"> */}
       <h3 className="text-2xl font-bold mb-5">User info</h3>
       {/* Inputs */}
       <div className="space-y-3">
         {/* Name Input */}
         <div className="grid w-full items-center gap-1.5">
           <label htmlFor="name">Name</label>
-          <Input type="text" id="name" placeholder="John Doe" />
+          <Input type="text" id="name" placeholder="John Doe" defaultValue={name} />
         </div>
         {/* Username Input */}
         <div className="grid w-full items-center gap-1.5">
           <label htmlFor="username">Username</label>
-          <Input type="text" id="username" placeholder="johndoe" />
+          <Input type="text" id="username" placeholder="johndoe" defaultValue={username} />
         </div>
         {/* Email Input */}
         <div className="grid w-full items-center gap-1.5">
           <label htmlFor="email">Email</label>
-          <Input type="email" id="email" placeholder="john.doe@example.com" />
+          <Input type="email" id="email" placeholder="john.doe@example.com" defaultValue={email} />
         </div>
         {/* Bio Textarea */}
         <div className="grid w-full items-center gap-1.5">
           <label htmlFor="bio">Bio</label>
-          <Textarea id="bio" placeholder="A short bio..." />
+          <Textarea id="bio" placeholder="A short bio..." defaultValue={bio} />
         </div>
       </div>
-      <Button type="submit" className="w-full mt-6">
+      <Button type="submit" className="w-full mt-6" disabled>
         Save
       </Button>
+      <Separator className="mt-6" />
       <Logout />
-      {/* </Card> */}
     </form>
   );
 };

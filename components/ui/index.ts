@@ -5,6 +5,7 @@ export * from "./Card";
 export * from "./Drawer";
 export * from "./Dialog";
 export * from "./HoverCard";
+export * from "./Separator";
 export * from "./Input";
 export * from "./Textarea";
 export * from "./Tooltip";

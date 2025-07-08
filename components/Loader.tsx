@@ -1,3 +1,3 @@
 import { LoaderCircle } from "lucide-react";
 
-export const Loader = () => <LoaderCircle className="animate-spin" />;
+export const Loader = () => <LoaderCircle className="animate-spin mx-auto" />;
