@@ -15,6 +15,13 @@
       "when": 1752007593458,
       "tag": "0001_careful_rattler",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1752116872390,
+      "tag": "0002_lush_nick_fury",
+      "breakpoints": true
     }
   ]
 }

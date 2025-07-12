@@ -1,5 +1,6 @@
 import { createId } from "@paralleldrive/cuid2";
-import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { boolean, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
 
 const properties = {
   id: text("id")
@@ -75,3 +76,30 @@ export const tag = pgTable("tag", {
   ...properties,
   name: text("name").notNull(),
 });
+
+export const tagToPost = pgTable(
+  "tag_to_post",
+  {
+    postId: text("post_id")
+      .notNull()
+      .references(() => post.id, { onDelete: "cascade" }),
+    tagId: text("tag_id")
+      .notNull()
+      .references(() => tag.id, { onDelete: "cascade" }),
+  },
+  (table) => [primaryKey({ columns: [table.postId, table.tagId] })]
+);
+
+// Relations
+export const postRelations = relations(post, ({ many }) => ({
+  tagToPost: many(tagToPost),
+}));
+
+export const tagRelations = relations(tag, ({ many }) => ({
+  tagToPost: many(tagToPost),
+}));
+
+export const tagToPostRelations = relations(tagToPost, ({ one }) => ({
+  post: one(post, { fields: [tagToPost.postId], references: [post.id] }),
+  tag: one(tag, { fields: [tagToPost.tagId], references: [tag.id] }),
+}));
