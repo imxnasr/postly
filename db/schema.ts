@@ -91,7 +91,12 @@ export const tagToPost = pgTable(
 );
 
 // Relations
-export const postRelations = relations(post, ({ many }) => ({
+export const userRelations = relations(user, ({ many }) => ({
+  post: many(post),
+}));
+
+export const postRelations = relations(post, ({ one, many }) => ({
+  user: one(user, { fields: [post.authorId], references: [user.id] }),
   tagToPost: many(tagToPost),
 }));
 
