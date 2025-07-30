@@ -1,12 +1,17 @@
-import { FC } from "react";
-import { Avatar, AvatarFallback, AvatarImage, Badge, Card, HoverCard, HoverCardContent, HoverCardTrigger } from "./ui";
 import { Bookmark, Heart, MessageSquare } from "lucide-react";
 import Link from "next/link";
+import { FC } from "react";
 import { ActionBtn } from "./post/ActionBtn";
+import { Avatar, AvatarFallback, AvatarImage, Badge, Card, HoverCard, HoverCardContent, HoverCardTrigger } from "./ui";
 
-interface PostProps {}
+interface PostProps {
+  data: any;
+}
 
-export const Post: FC<PostProps> = () => {
+export const Post: FC<PostProps> = ({ data }) => {
+  const { id, title, content, user } = data;
+  const { name, username, bio, image } = user;
+  const avatarFallback = name.substring(0, 2).toUpperCase();
   return (
     <Card className="p-4">
       {/* Header */}
@@ -14,14 +19,14 @@ export const Post: FC<PostProps> = () => {
         <div className="flex items-center gap-2 mb-3">
           <Avatar className="size-10">
             <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>IM</AvatarFallback>
+            <AvatarFallback>{avatarFallback}</AvatarFallback>
           </Avatar>
           {/* Texts */}
           <div className="flex flex-col">
-            <HoverCardTrigger href="/@shadcn" className="text-xl font-bold -mb-1 hover:underline cursor-pointer">
-              Shadcn
+            <HoverCardTrigger href={`/@${username}`} className="text-xl font-bold -mb-1 hover:underline cursor-pointer">
+              {name}
             </HoverCardTrigger>
-            <div className="text-sm">@shadcn</div>
+            <div className="text-sm">@{username}</div>
           </div>
         </div>
         {/* Hover Card */}
@@ -29,29 +34,24 @@ export const Post: FC<PostProps> = () => {
           <div className="flex items-center gap-2 mb-3">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>IM</AvatarFallback>
+              <AvatarFallback>{avatarFallback}</AvatarFallback>
             </Avatar>
             {/* Texts */}
             <div className="flex flex-col">
-              <div className="text-xl font-bold -mb-1">Shadcn</div>
-              <div className="text-sm">@shadcn</div>
+              <div className="text-xl font-bold -mb-1">{name}</div>
+              <div className="text-sm">@{username}</div>
             </div>
           </div>
           {/* Description */}
-          <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, inventore.</div>
+          {bio && <div>{bio}</div>}
         </HoverCardContent>
       </HoverCard>
       {/* Title */}
-      <Link href="/post/1">
-        <h1 className="text-lg font-bold mb-2">Is Friday really an exciting day?🎉🥳</h1>
+      <Link href={`/post/${id}`}>
+        <h1 className="text-lg font-bold mb-2">{title}</h1>
       </Link>
       {/* Content */}
-      <div className="text-md line-clamp-3 leading-5 text-muted-foreground my-2">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores atque aspernatur quod reiciendis modi. Ipsum
-        iusto aliquam voluptas et magnam in nesciunt fugit accusamus, tempora saepe dolores dolore doloribus beatae
-        exercitationem, dignissimos reprehenderit deserunt aperiam repudiandae maiores, eum similique. Dolorem ratione
-        quisquam porro natus molestias alias sequi voluptatem magnam provident?
-      </div>
+      <div className="text-md line-clamp-3 leading-5 text-muted-foreground my-2">{content}</div>
       {/* Tags */}
       <div className="flex items-center gap-2 *:text-xs *:rounded-full overflow-auto *:cursor-default mb-2 scrollbar-none">
         <Badge variant="outline">react</Badge>
