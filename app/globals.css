@@ -152,3 +152,11 @@
     padding-inline: 6rem;
   }
 }
+
+p.is-editor-empty:first-child::before {
+  color: var(--muted-foreground);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}

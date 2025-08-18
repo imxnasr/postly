@@ -2,6 +2,7 @@
 
 import { createPost } from "@/actions/create-post";
 import { Button, Input, Textarea } from "@/components/ui";
+import Tiptap from "@/components/ui/Tiptap";
 import { cn } from "@/lib/utils";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
@@ -41,14 +42,15 @@ export default () => {
         </div>
         <div className="grid w-full items-center gap-1.5">
           <label htmlFor="body">Body</label>
-          <Textarea
-            id="body"
-            name="body"
-            placeholder="Body"
-            aria-describedby="body-error"
-            defaultValue={state?.inputs?.body}
-            className={cn("text-lg md:text-lg h-40", !isPending && state?.errors?.body ? "border-red-500" : "")}
-          />
+          {/* <Textarea */}
+          {/*   id="body" */}
+          {/*   name="body" */}
+          {/*   placeholder="Body" */}
+          {/*   aria-describedby="body-error" */}
+          {/*   defaultValue={state?.inputs?.body} */}
+          {/*   className={cn("text-lg md:text-lg h-40", !isPending && state?.errors?.body ? "border-red-500" : "")} */}
+          {/* /> */}
+          <Tiptap />
           {!isPending && state?.errors?.body && (
             <p id="body-error" className="text-red-500 text-sm">
               {state.errors.body}
