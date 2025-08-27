@@ -10,19 +10,7 @@ interface data {
 
 interface LoginResponse {
   success: boolean;
-  message?: string;
-  // errors: {
-  //   name?: string;
-  //   username?: string;
-  //   email?: string;
-  //   password?: string;
-  // };
-  // inputs?: {
-  //   name?: string;
-  //   username?: string;
-  //   email?: string;
-  //   password?: string;
-  // };
+  message: string;
 }
 
 export const login = async (data: data): Promise<LoginResponse> => {

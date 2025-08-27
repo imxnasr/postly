@@ -1,114 +1,128 @@
 "use client";
 
-import React, { useActionState, useEffect } from "react";
-import { Button, Input } from "@/components/ui";
 import { register } from "@/actions/register";
 import { Loader } from "@/components/Loader";
-import { toast } from "sonner";
-import { redirect } from "next/navigation";
+import { Button, Input } from "@/components/ui";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-
-const initialState: any = { success: false, message: "", errors: {}, inputs: {} };
+import { redirect } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 export default () => {
-  const [state, action, isPending] = useActionState(register, initialState);
-  useEffect(() => {
-    if (state.success) {
-      toast.success(state.message);
+  const [isPending, setIsPending] = useState(false);
+
+  const formSchema = z.object({
+    name: z.string().min(1, "Name must be at least 1 characters").max(50, "Name must be at most 50 characters"),
+    username: z
+      .string()
+      .min(3, "Username must be at least 3 characters")
+      .max(20, "Username must be at most 20 characters")
+      .regex(/^[a-zA-Z0-9_]+$/, "Username can only contain letters, numbers, and underscores"),
+    email: z.email("Invalid email address"),
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+      .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+      .regex(/[0-9]/, "Password must contain at least one number")
+      .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
+  });
+
+  type FormSchema = z.infer<typeof formSchema>;
+
+  const form = useForm<FormSchema>({
+    resolver: zodResolver(formSchema),
+  });
+
+  const onSbumit = async (formData: FormSchema) => {
+    setIsPending(true);
+    const res = await register(formData);
+    if (res.success) {
+      toast.success(res.message);
       redirect("/");
     } else {
-      if (state.message) {
-        toast.error(state.message);
-      }
+      toast.error(res.message);
     }
-  }, [state]);
+    setIsPending(false);
+  };
+
   return (
-    <form action={action} className="max-w-xl m-auto mt-8" autoComplete="on">
-      <h3 className="text-2xl font-bold mb-5">Register</h3>
-      {/* Inputs */}
-      <div className="space-y-3">
-        {/* Name Input */}
-        <div className="grid w-full items-center gap-1.5">
-          <label htmlFor="name">Name</label>
-          <Input
-            id="name"
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSbumit)} className="max-w-xl m-auto mt-8" autoComplete="on">
+        <h3 className="text-2xl font-bold mb-5">Register</h3>
+        {/* Inputs */}
+        <div className="space-y-3">
+          {/* Name Input */}
+          <FormField
+            control={form.control}
             name="name"
-            type="text"
-            placeholder="Name"
-            aria-describedby="name-error"
-            defaultValue={state?.inputs?.name}
-            className={!isPending && state?.errors?.name ? "border-red-500" : ""}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Name" {...field} value={field.value || ""} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {!isPending && state?.errors?.name && (
-            <p id="name-error" className="text-red-500 text-sm">
-              {state.errors.name}
-            </p>
-          )}
-        </div>
-        {/* Username Input */}
-        <div className="grid w-full items-center gap-1.5">
-          <label htmlFor="username">Username</label>
-          <Input
-            id="username"
+          {/* Username Input */}
+          <FormField
+            control={form.control}
             name="username"
-            type="text"
-            placeholder="Username"
-            aria-describedby="username-error"
-            defaultValue={state?.inputs?.username}
-            className={!isPending && state?.errors?.username ? "border-red-500" : ""}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input placeholder="Username" {...field} value={field.value || ""} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {!isPending && state?.errors?.username && (
-            <p id="username-error" className="text-red-500 text-sm">
-              {state.errors.username}
-            </p>
-          )}
-        </div>
-        {/* Email Input */}
-        <div className="grid w-full items-center gap-1.5">
-          <label htmlFor="email">Email</label>
-          <Input
-            id="email"
+          {/* Email Input */}
+          <FormField
+            control={form.control}
             name="email"
-            type="email"
-            placeholder="Email"
-            aria-describedby="email-error"
-            defaultValue={state?.inputs?.email}
-            className={!isPending && state?.errors?.email ? "border-red-500" : ""}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="Email" {...field} value={field.value || ""} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {!isPending && state?.errors?.email && (
-            <p id="email-error" className="text-red-500 text-sm">
-              {state.errors.email}
-            </p>
-          )}
-        </div>
-        {/* Name Input */}
-        <div className="grid w-full items-center gap-1.5">
-          <label htmlFor="password">Password</label>
-          <Input
-            id="password"
+          {/* Password Input */}
+          <FormField
+            control={form.control}
             name="password"
-            type="password"
-            placeholder="Password"
-            aria-describedby="password-error"
-            defaultValue={state?.inputs?.password}
-            className={!isPending && state?.errors?.password ? "border-red-500" : ""}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input type="password" placeholder="Password" {...field} value={field.value || ""} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {!isPending && state?.errors?.password && (
-            <p id="password-error" className="text-red-500 text-sm">
-              {state.errors.password}
-            </p>
-          )}
         </div>
-      </div>
-      <p className="text-muted-foreground text-sm mt-2">
-        Already have an account?{" "}
-        <Link href="/login" className="text-foreground hover:underline">
-          Login
-        </Link>
-      </p>
-      <Button type="submit" className="w-full mt-6" disabled={isPending}>
-        {isPending ? <Loader /> : "Register"}
-      </Button>
-    </form>
+        <p className="text-muted-foreground text-sm mt-2">
+          Already have an account?{" "}
+          <Link href="/login" className="text-foreground hover:underline">
+            Login
+          </Link>
+        </p>
+        <Button type="submit" className="w-full mt-6" disabled={isPending}>
+          {isPending ? <Loader /> : "Register"}
+        </Button>
+      </form>
+    </Form>
   );
 };

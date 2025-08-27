@@ -28,12 +28,7 @@ export default () => {
   type FormSchema = z.infer<typeof formSchema>;
 
   const form = useForm<FormSchema>({
-    // @ts-expect-error -- Doesn't know what's going on.
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      usernameOrEmail: "",
-      password: "",
-    },
   });
 
   const onSubmit = async (formData: FormSchema) => {
@@ -62,7 +57,7 @@ export default () => {
               <FormItem>
                 <FormLabel>Username or Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Username or Email" {...field} />
+                  <Input placeholder="Username or Email" {...field} value={field.value || ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -76,7 +71,7 @@ export default () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="Password" {...field} />
+                  <Input type="password" placeholder="Password" {...field} value={field.value || ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
