@@ -2,6 +2,7 @@ import { Bookmark, Heart, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { FC } from "react";
 import { ActionBtn } from "./post/ActionBtn";
+import { Content } from "./post/Content";
 import { Avatar, AvatarFallback, AvatarImage, Badge, Card, HoverCard, HoverCardContent, HoverCardTrigger } from "./ui";
 
 interface PostProps {
@@ -12,6 +13,7 @@ export const Post: FC<PostProps> = ({ data }) => {
   const { id, title, content, user } = data;
   const { name, username, bio, image } = user;
   const avatarFallback = name.substring(0, 2).toUpperCase();
+
   return (
     <Card className="p-4">
       {/* Header */}
@@ -51,7 +53,7 @@ export const Post: FC<PostProps> = ({ data }) => {
         <h1 className="text-lg font-bold mb-2">{title}</h1>
       </Link>
       {/* Content */}
-      <div className="text-md line-clamp-3 leading-5 text-muted-foreground my-2">{content}</div>
+      <Content>{content}</Content>
       {/* Tags */}
       <div className="flex items-center gap-2 *:text-xs *:rounded-full overflow-auto *:cursor-default mb-2 scrollbar-none">
         <Badge variant="outline">react</Badge>
