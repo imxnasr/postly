@@ -1,69 +1,84 @@
 "use client";
 
 import { createPost } from "@/actions/create-post";
-import { Button, Input } from "@/components/ui";
+import { Loader } from "@/components/Loader";
 import Tiptap from "@/components/Tiptap";
-import { cn } from "@/lib/utils";
-import { useActionState, useEffect } from "react";
+import { Button, Input } from "@/components/ui";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-
-const initialState: any = { success: false, message: "", errors: {}, inputs: {} };
+import * as z from "zod";
 
 export default () => {
-  const [state, action, isPending] = useActionState(createPost, initialState);
-  useEffect(() => {
-    if (state.success) {
-      toast.success(state.message);
-    } else if (state.message) {
-      toast.error(state.message);
+  const [isPending, setIsPending] = useState(false);
+
+  const formSchema = z.object({
+    title: z.string().min(1, "Title is required"),
+    body: z.string().min(1, "Body is required"),
+  });
+
+  type FormSchema = z.infer<typeof formSchema>;
+
+  const form = useForm<FormSchema>({
+    resolver: zodResolver(formSchema),
+  });
+
+  const onSubmit = async (data: any) => {
+    setIsPending(true);
+    const res = await createPost(data);
+    if (res.success) {
+      toast.success(res.message);
+      form.reset();
+    } else {
+      toast.error(res.message);
     }
-  }, [state]);
-  const handleSubmit = (data: any) => {
-    console.log(data);
+    setIsPending(false);
   };
+
   return (
-    <form action={handleSubmit} className="m-auto mt-8">
-      <h3 className="text-2xl font-bold mb-5">Create post</h3>
-      {/* Inputs */}
-      <div className="space-y-3">
-        <div className="grid w-full items-center gap-1.5">
-          <label htmlFor="title">Title</label>
-          <Input
-            id="title"
-            type="text"
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="m-auto mt-8">
+        <h3 className="text-2xl font-bold mb-5">Create post</h3>
+
+        {/* Inputs */}
+        <div className="space-y-3">
+          {/* Title */}
+          <FormField
+            control={form.control}
             name="title"
-            placeholder="Title"
-            aria-describedby="title-error"
-            defaultValue={state?.inputs?.title}
-            className={cn("py-6 text-xl md:text-xl", !isPending && state?.errors?.title ? "border-red-500" : "")}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input placeholder="Title" {...field} value={field.value || ""} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {!isPending && state?.errors?.title && (
-            <p id="title-error" className="text-red-500 text-sm">
-              {state.errors.title}
-            </p>
-          )}
+
+          {/* Body */}
+          <FormField
+            control={form.control}
+            name="body"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Body</FormLabel>
+                <FormControl>
+                  <Tiptap onChange={field.onChange} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
-        <div className="grid w-full items-center gap-1.5">
-          <label htmlFor="body">Body</label>
-          {/* <Textarea */}
-          {/*   id="body" */}
-          {/*   name="body" */}
-          {/*   placeholder="Body" */}
-          {/*   aria-describedby="body-error" */}
-          {/*   defaultValue={state?.inputs?.body} */}
-          {/*   className={cn("text-lg md:text-lg h-40", !isPending && state?.errors?.body ? "border-red-500" : "")} */}
-          {/* /> */}
-          <Tiptap />
-          {!isPending && state?.errors?.body && (
-            <p id="body-error" className="text-red-500 text-sm">
-              {state.errors.body}
-            </p>
-          )}
-        </div>
-      </div>
-      <Button className="w-full mt-6" type="submit" disabled={isPending}>
-        Create
-      </Button>
-    </form>
+
+        <Button className="w-full mt-6" type="submit" disabled={isPending}>
+          {isPending ? <Loader /> : "Create"}
+        </Button>
+      </form>
+    </Form>
   );
 };

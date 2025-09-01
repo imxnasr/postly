@@ -28,7 +28,6 @@ export default () => {
   type FormSchema = z.infer<typeof formSchema>;
 
   const form = useForm<FormSchema>({
-    // @ts-ignore
     resolver: zodResolver(formSchema),
   });
 

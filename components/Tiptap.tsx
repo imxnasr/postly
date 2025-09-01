@@ -5,10 +5,17 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Toolbar from "./Toolbar";
 
-const Tiptap = () => {
+const Tiptap = ({ onChange }: { onChange: (value: string) => void }) => {
   const editor = useEditor({
     enableInputRules: false,
     enablePasteRules: false,
+    onUpdate: ({ editor }) => {
+      if (editor.getText().length > 0) {
+        onChange(editor.getHTML());
+      } else {
+        onChange("");
+      }
+    },
     extensions: [
       StarterKit,
       Placeholder.configure({
