@@ -10,7 +10,7 @@ import { redirect } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import * as z from "zod";
 
 export default () => {
   const [isPending, setIsPending] = useState(false);
