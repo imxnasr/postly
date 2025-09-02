@@ -2,7 +2,7 @@ import { Bookmark, Heart, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { FC } from "react";
 import { ActionBtn } from "./post/ActionBtn";
-import { Content } from "./post/Content";
+import { CleanHTML } from "./CleanHTML";
 import { Avatar, AvatarFallback, AvatarImage, Badge, Card, HoverCard, HoverCardContent, HoverCardTrigger } from "./ui";
 
 interface PostProps {
@@ -50,12 +50,14 @@ export const Post: FC<PostProps> = ({ data }) => {
       </HoverCard>
       {/* Title */}
       <Link href={`/post/${id}`}>
-        <h1 className="text-lg font-bold mb-2">{title}</h1>
+        <h1 className="text-xl font-bold mb-2">{title}</h1>
       </Link>
       {/* Content */}
-      <Content>{content}</Content>
+      <CleanHTML className="text-md line-clamp-3 leading-5 text-muted-foreground my-2 [&_h2]:text-base [&_h2]:my-2">
+        {content}
+      </CleanHTML>
       {/* Tags */}
-      <div className="flex items-center gap-2 *:text-xs *:rounded-full overflow-auto *:cursor-default mb-2 scrollbar-none">
+      <div className="flex items-center gap-2 *:text-xs *:rounded-full overflow-auto *:cursor-default my-2 scrollbar-none">
         <Badge variant="outline">react</Badge>
         <Badge variant="outline">nextjs</Badge>
         <Badge variant="outline">tailwindcss</Badge>

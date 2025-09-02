@@ -1,3 +1,4 @@
+import { CleanHTML } from "@/components/CleanHTML";
 import { Avatar, AvatarFallback, AvatarImage, HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui";
 import { db } from "@/db";
 
@@ -9,7 +10,6 @@ export default async ({ params }: { params: Promise<{ id: string }> }) => {
       user: true,
     },
   });
-  console.log(data);
   const { title, content, user, createdAt } = data as any;
   const { name, username, bio } = user;
   const avatarFallback = name.substring(0, 2).toUpperCase();
@@ -53,9 +53,9 @@ export default async ({ params }: { params: Promise<{ id: string }> }) => {
       {/* Post content */}
       <div className="mt-16">
         {/* Title */}
-        <h1 className="text-4xl font-semibold">{title}</h1>
+        <h1 className="text-4xl font-semibold mb-10">{title}</h1>
         {/* Body */}
-        <p className="text-2xl text-muted-foreground my-8">{content}</p>
+        <CleanHTML>{content}</CleanHTML>
       </div>
     </div>
   );
