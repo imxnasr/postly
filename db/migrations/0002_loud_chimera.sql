@@ -1,0 +1,1 @@
+ALTER TABLE "saved_post" ADD CONSTRAINT "saved_post_user_id_post_id_pk" PRIMARY KEY("user_id","post_id");

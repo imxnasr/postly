@@ -1,8 +1,12 @@
+"use client";
+
+import { savePost } from "@/actions/save-post";
 import { Bookmark, Heart, MessageSquare } from "lucide-react";
 import Link from "next/link";
-import { FC } from "react";
-import { ActionBtn } from "./post/ActionBtn";
+import { FC, useState } from "react";
+import { toast } from "sonner";
 import { CleanHTML } from "./CleanHTML";
+import { ActionBtn } from "./post/ActionBtn";
 import { Avatar, AvatarFallback, AvatarImage, Badge, Card, HoverCard, HoverCardContent, HoverCardTrigger } from "./ui";
 
 interface PostProps {
@@ -13,6 +17,23 @@ export const Post: FC<PostProps> = ({ data }) => {
   const { id, title, content, user } = data;
   const { name, username, bio, image } = user;
   const avatarFallback = name.substring(0, 2).toUpperCase();
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleSavePost = async () => {
+    setIsSaving(true);
+    try {
+      const res = await savePost(id);
+      if (res.success) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred while saving the post.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <Card className="p-4">
@@ -69,7 +90,7 @@ export const Post: FC<PostProps> = ({ data }) => {
           <ActionBtn name="Like" num={100} Icon={Heart} />
           <ActionBtn name="Comment" num={37} Icon={MessageSquare} />
         </div>
-        <ActionBtn name="Bookmark" num={37} Icon={Bookmark} />
+        <ActionBtn name="Bookmark" num={37} Icon={Bookmark} onClick={handleSavePost} isLoading={isSaving} />
       </div>
     </Card>
   );

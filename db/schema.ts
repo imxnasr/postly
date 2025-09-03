@@ -90,14 +90,37 @@ export const tagToPost = pgTable(
   (table) => [primaryKey({ columns: [table.postId, table.tagId] })]
 );
 
+export const savedPost = pgTable(
+  "saved_post",
+  {
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    postId: text("post_id")
+      .notNull()
+      .references(() => post.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at")
+      .$defaultFn(() => new Date())
+      .notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.userId, table.postId] })]
+);
+
 // Relations
 export const userRelations = relations(user, ({ many }) => ({
   post: many(post),
+  savedPost: many(savedPost),
 }));
 
 export const postRelations = relations(post, ({ one, many }) => ({
   user: one(user, { fields: [post.authorId], references: [user.id] }),
   tagToPost: many(tagToPost),
+  savedPost: many(savedPost),
+}));
+
+export const savedPostRel = relations(savedPost, ({ one }) => ({
+  user: one(user, { fields: [savedPost.userId], references: [user.id] }),
+  post: one(post, { fields: [savedPost.postId], references: [post.id] }),
 }));
 
 export const tagRelations = relations(tag, ({ many }) => ({

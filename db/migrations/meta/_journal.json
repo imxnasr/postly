@@ -8,6 +8,20 @@
       "when": 1750884492046,
       "tag": "0000_friendly_leper_queen",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1756903037464,
+      "tag": "0001_amusing_synch",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1756914582572,
+      "tag": "0002_loud_chimera",
+      "breakpoints": true
     }
   ]
 }
