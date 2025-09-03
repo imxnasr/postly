@@ -28,7 +28,7 @@ export default () => {
   if (isSessionPending)
     return (
       <div className=" mx-auto">
-        <Loader />
+        <Loader className="mx-auto" />
       </div>
     );
   return (

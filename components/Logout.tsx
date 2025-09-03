@@ -21,13 +21,13 @@ export const Logout = () => {
   const [isLoading, setIsLoading] = useState(false);
   const handleLogout = async () => {
     setIsLoading(true);
-    await signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          router.push("/login"); // redirect to login page
-        },
-      },
-    });
+    // await signOut({
+    //   fetchOptions: {
+    //     onSuccess: () => {
+    //       router.push("/login"); // redirect to login page
+    //     },
+    //   },
+    // });
   };
   return (
     <Dialog>
@@ -45,8 +45,14 @@ export const Logout = () => {
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button variant="destructive" onClick={handleLogout} disabled={isLoading}>
-            {isLoading ? <Loader /> : "Logout"}
+          <Button
+            className="flex items-center justify-center"
+            variant="destructive"
+            onClick={handleLogout}
+            disabled={isLoading}
+          >
+            {isLoading && <Loader />}
+            Logout
           </Button>
         </DialogFooter>
       </DialogContent>
