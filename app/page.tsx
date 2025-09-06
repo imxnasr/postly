@@ -14,7 +14,6 @@ export default async () => {
       savedPost: true,
     },
   });
-  console.log(posts);
   return (
     <div className="space-y-4">
       {posts.map((post, idx) => (
