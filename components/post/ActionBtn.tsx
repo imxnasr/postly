@@ -37,7 +37,13 @@ export const ActionBtn: FC<ActionBtnProps> = ({
             variant="ghost"
             className="bg-transparent flex items-center gap-1 rounded-full px-2 shadow-none"
           >
-            {active ? <ActiveIcon className={cn(name === "Like" ? "text-red-500" : "")} /> : <Icon />}
+            {isLoading ? (
+              <Loader />
+            ) : active ? (
+              <ActiveIcon className={cn(name === "Like" ? "text-red-500" : "")} />
+            ) : (
+              <Icon />
+            )}
             <span>{formatNumber(num)}</span>
           </Button>
         </TooltipTrigger>

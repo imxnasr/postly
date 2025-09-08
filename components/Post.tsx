@@ -30,32 +30,14 @@ export const Post: FC<PostProps> = ({ data }) => {
     try {
       const res = await savePost(id);
       if (res.success) {
+        setSavedActive((prev) => !prev);
+        setSavedCount((prev) => (savedActive ? prev - 1 : prev + 1));
         toast.success(res.message);
-        setSavedCount((prev) => prev + 1);
-        setSavedActive(true);
       } else {
         toast.error(res.message);
       }
     } catch (error) {
       toast.error("An unexpected error occurred while saving the post.");
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const handleUnsavePost = async () => {
-    setIsSaving(true);
-    try {
-      const res = await unsavePost(id);
-      if (res.success) {
-        toast.success(res.message);
-        setSavedCount((prev) => prev - 1);
-        setSavedActive(false);
-      } else {
-        toast.error(res.message);
-      }
-    } catch (error) {
-      toast.error("An unexpected error occurred while unsaving the post.");
     } finally {
       setIsSaving(false);
     }
@@ -148,7 +130,7 @@ export const Post: FC<PostProps> = ({ data }) => {
           ActiveIcon={BookmarkCheck}
           active={savedActive}
           onClickActive={handleSavePost}
-          onClickInActive={handleUnsavePost}
+          onClickInActive={handleSavePost}
           isLoading={isSaving}
         />
       </div>
