@@ -12,6 +12,7 @@ export default async () => {
     with: {
       user: true,
       savedPost: true,
+      postLikes: true,
     },
   });
   return (
@@ -21,6 +22,7 @@ export default async () => {
           data={{
             ...post,
             isSaved: post.savedPost.some((p) => p.userId === session?.user?.id),
+            isLiked: post.postLikes.some((p) => p.userId === session?.user?.id),
           }}
           key={idx}
         />

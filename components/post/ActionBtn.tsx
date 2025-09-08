@@ -2,6 +2,7 @@ import { formatNumber } from "@/lib/formatters";
 import { FC } from "react";
 import { Loader } from "../Loader";
 import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui";
+import { cn } from "@/lib/utils";
 
 interface ActionBtnProps extends React.ComponentPropsWithoutRef<"button"> {
   name: string;
@@ -36,7 +37,7 @@ export const ActionBtn: FC<ActionBtnProps> = ({
             variant="ghost"
             className="bg-transparent flex items-center gap-1 rounded-full px-2 shadow-none"
           >
-            {isLoading ? <Loader /> : active ? <ActiveIcon /> : <Icon />}
+            {active ? <ActiveIcon className={cn(name === "Like" ? "text-red-500" : "")} /> : <Icon />}
             <span>{formatNumber(num)}</span>
           </Button>
         </TooltipTrigger>

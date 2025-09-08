@@ -1,5 +1,6 @@
 "use client";
 
+import { likePost } from "@/actions/like-post";
 import { savePost, unsavePost } from "@/actions/save-post";
 import { Bookmark, BookmarkCheck, Heart, MessageSquare } from "lucide-react";
 import Link from "next/link";
@@ -14,13 +15,15 @@ interface PostProps {
 }
 
 export const Post: FC<PostProps> = ({ data }) => {
-  const { id, title, content, user, savedPost, isSaved } = data;
+  const { id, title, content, user, savedPost, isSaved, postLikes, isLiked } = data;
   const { name, username, bio, image } = user;
 
   const avatarFallback = name.substring(0, 2).toUpperCase();
   const [isSaving, setIsSaving] = useState(false);
   const [savedCount, setSavedCount] = useState<number>(savedPost?.length || 0);
   const [savedActive, setSavedActive] = useState<boolean>(isSaved || false);
+  const [likedCount, setLikedCount] = useState<number>(postLikes?.length || 0);
+  const [likedActive, setLikedActive] = useState<boolean>(isLiked || false);
 
   const handleSavePost = async () => {
     setIsSaving(true);
@@ -55,6 +58,23 @@ export const Post: FC<PostProps> = ({ data }) => {
       toast.error("An unexpected error occurred while unsaving the post.");
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleLikePost = async () => {
+    try {
+      setLikedActive((prev) => !prev);
+      setLikedCount((prev) => (likedActive ? prev - 1 : prev + 1));
+      const res = await likePost(id);
+      if (!res.success) {
+        toast.error("An unexpected error occurred while liking the post.");
+        setLikedActive((prev) => !prev);
+        setLikedCount((prev) => (likedActive ? prev + 1 : prev - 1));
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred while liking the post.");
+      setLikedActive((prev) => !prev);
+      setLikedCount((prev) => (likedActive ? prev + 1 : prev - 1));
     }
   };
 
@@ -110,7 +130,15 @@ export const Post: FC<PostProps> = ({ data }) => {
       {/* Actions */}
       <div className="flex items-center justify-between text-sm mt-3">
         <div className="flex gap-2 items-center">
-          <ActionBtn name="Like" num={100} Icon={Heart} ActiveIcon={Heart} />
+          <ActionBtn
+            name="Like"
+            num={likedCount}
+            Icon={Heart}
+            ActiveIcon={Heart}
+            active={likedActive}
+            onClickActive={handleLikePost}
+            onClickInActive={handleLikePost}
+          />
           <ActionBtn name="Comment" num={37} Icon={MessageSquare} ActiveIcon={MessageSquare} />
         </div>
         <ActionBtn

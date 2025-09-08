@@ -21,13 +21,13 @@ export const Logout = () => {
   const [isLoading, setIsLoading] = useState(false);
   const handleLogout = async () => {
     setIsLoading(true);
-    // await signOut({
-    //   fetchOptions: {
-    //     onSuccess: () => {
-    //       router.push("/login"); // redirect to login page
-    //     },
-    //   },
-    // });
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/login"); // redirect to login page
+        },
+      },
+    });
   };
   return (
     <Dialog>
