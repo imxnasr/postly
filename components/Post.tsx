@@ -1,7 +1,7 @@
 "use client";
 
 import { likePost } from "@/actions/like-post";
-import { savePost, unsavePost } from "@/actions/save-post";
+import { savePost } from "@/actions/save-post";
 import { Bookmark, BookmarkCheck, Heart, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { FC, useState } from "react";
@@ -118,8 +118,7 @@ export const Post: FC<PostProps> = ({ data }) => {
             Icon={Heart}
             ActiveIcon={Heart}
             active={likedActive}
-            onClickActive={handleLikePost}
-            onClickInActive={handleLikePost}
+            onClick={handleLikePost}
           />
           <ActionBtn name="Comment" num={37} Icon={MessageSquare} ActiveIcon={MessageSquare} />
         </div>
@@ -129,8 +128,7 @@ export const Post: FC<PostProps> = ({ data }) => {
           Icon={Bookmark}
           ActiveIcon={BookmarkCheck}
           active={savedActive}
-          onClickActive={handleSavePost}
-          onClickInActive={handleSavePost}
+          onClick={handleSavePost}
           isLoading={isSaving}
         />
       </div>
