@@ -31,8 +31,6 @@ export const likePost = async (postId: string): Promise<LikePostResponse> => {
       .from(postLikes)
       .where(and(eq(postLikes.userId, userInfo.id), eq(postLikes.postId, postId)));
 
-    console.log(likeExists);
-
     if (likeExists.length > 0) {
       await db.delete(postLikes).where(and(eq(postLikes.userId, userInfo.id), eq(postLikes.postId, postId)));
     } else {
