@@ -2,7 +2,7 @@ import { inferAdditionalFields, usernameClient } from "better-auth/client/plugin
 import { createAuthClient } from "better-auth/react";
 import { auth } from "./auth";
 
-export const { signIn, signUp, signOut, getSession, useSession } = createAuthClient({
+export const { signIn, signUp, signOut, getSession, useSession, updateUser } = createAuthClient({
   baseURL: process.env.NEXT_PUBLIC_APP_URL!,
   plugins: [usernameClient(), inferAdditionalFields<typeof auth>()],
 });
