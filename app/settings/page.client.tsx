@@ -1,22 +1,26 @@
 "use client";
 
-import { updateUser } from "@/lib/auth-client";
+import { Loader } from "@/components";
 import { Logout } from "@/components/Logout";
 import { Button, Input, Separator, Textarea } from "@/components/ui";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
+import { updateUser } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-import { Loader } from "@/components";
 
 export default ({ userInfo }: any) => {
   const [isPending, setIsPending] = useState(false);
-  // const [name, setName] = useState(userInfo?.name || "");
-  // const [username, setUsername] = useState(userInfo?.username || "");
-  // const [email, setEmail] = useState(userInfo?.email || "");
-  // const [bio, setBio] = useState(userInfo?.bio || "");
+  const [mounted, setMounted] = useState(false);
+  const { setTheme, theme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const formSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be less than 50 characters"),
@@ -105,7 +109,6 @@ export default ({ userInfo }: any) => {
               <FormItem>
                 <FormLabel>Bio</FormLabel>
                 <FormControl>
-                  {/*<Input placeholder="Bio" {...field} value={field.value || ""} />*/}
                   <Textarea placeholder="Bio" {...field} value={field.value || ""} />
                 </FormControl>
                 <FormMessage />
@@ -119,6 +122,22 @@ export default ({ userInfo }: any) => {
         <Separator className="mt-6" />
         <Logout />
       </form>
+      <Separator className="mt-6" />
+      <div className="max-w-xl m-auto mt-6">
+        <h3 className="text-2xl font-bold mb-5">Theme</h3>
+        {mounted && (
+          <Select value={theme} onValueChange={(value) => setTheme(value)}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Theme" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="system">System</SelectItem>
+              <SelectItem value="light">Light</SelectItem>
+              <SelectItem value="dark">Dark</SelectItem>
+            </SelectContent>
+          </Select>
+        )}
+      </div>
     </Form>
   );
 };
