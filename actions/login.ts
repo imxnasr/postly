@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import { APIError } from "better-auth/api";
 
 interface data {
-  usernameOrEmail: string;
+  email: string;
   password: string;
 }
 
@@ -15,21 +15,12 @@ interface LoginResponse {
 
 export const login = async (data: data): Promise<LoginResponse> => {
   try {
-    if (data.usernameOrEmail.includes("@")) {
-      await auth.api.signInEmail({
-        body: {
-          email: data.usernameOrEmail,
-          password: data.password,
-        },
-      });
-    } else {
-      await auth.api.signInUsername({
-        body: {
-          username: data.usernameOrEmail,
-          password: data.password,
-        },
-      });
-    }
+    await auth.api.signInEmail({
+      body: {
+        email: data.email,
+        password: data.password,
+      },
+    });
   } catch (error) {
     if (error instanceof APIError) {
       return {

@@ -16,12 +16,7 @@ export default () => {
   const [isPending, setIsPending] = useState(false);
 
   const formSchema = z.object({
-    usernameOrEmail: z
-      .string()
-      .min(1, "Username or email is required")
-      .refine((val: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) || /^[a-zA-Z0-9_]+$/.test(val), {
-        message: "Must be a valid email or username",
-      }),
+    email: z.email("Invalid email").transform((val) => val.toLowerCase()),
     password: z.string().min(8, "Password must be at least 8 characters"),
   });
 
@@ -52,12 +47,12 @@ export default () => {
           {/* Email Input */}
           <FormField
             control={form.control}
-            name="usernameOrEmail"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username or Email</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Username or Email" {...field} value={field.value || ""} />
+                  <Input placeholder="Email" {...field} value={field.value || ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

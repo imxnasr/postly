@@ -2,12 +2,13 @@
 
 import { register } from "@/actions/register";
 import { Loader } from "@/components/Loader";
-import { Button, Input } from "@/components/ui";
+import { Button, Input, Separator } from "@/components/ui";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form";
+import { signIn } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -17,12 +18,7 @@ export default () => {
 
   const formSchema = z.object({
     name: z.string().min(1, "Name must be at least 1 characters").max(50, "Name must be at most 50 characters"),
-    username: z
-      .string()
-      .min(3, "Username must be at least 3 characters")
-      .max(20, "Username must be at most 20 characters")
-      .regex(/^[a-zA-Z0-9_]+$/, "Username can only contain letters, numbers, and underscores"),
-    email: z.email("Invalid email address"),
+    email: z.email("Invalid email address").transform((val) => val.toLowerCase()),
     password: z
       .string()
       .min(8, "Password must be at least 8 characters")
@@ -50,12 +46,45 @@ export default () => {
     setIsPending(false);
   };
 
+  const signInWithGitHub = async (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      const data = await signIn.social({
+        provider: "github",
+        fetchOptions: {
+          onRequest: () => {
+            setIsPending(true);
+          },
+          onResponse: () => {
+            setIsPending(false);
+          },
+          onSuccess: () => {
+            toast.success("Successfully signed in with GitHub.");
+            redirect("/");
+          },
+          onError: (ctx) => {
+            toast.error(ctx.error.message);
+          },
+        },
+      });
+      console.log("SIGN IN WITH GITHUB", data);
+    } catch (error: any) {
+      console.log("ERROR", JSON.parse(error));
+    } finally {
+      setIsPending(false);
+    }
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSbumit)} className="max-w-xl m-auto mt-8" autoComplete="on">
         <h3 className="text-2xl font-bold mb-5">Register</h3>
         {/* Inputs */}
         <div className="space-y-3">
+          <Button type="button" onClick={signInWithGitHub} variant="secondary" className="w-full " disabled={isPending}>
+            {isPending ? <Loader /> : "GitHub"}
+          </Button>
+          <Separator className="my-6" />
           {/* Name Input */}
           <FormField
             control={form.control}
@@ -65,20 +94,6 @@ export default () => {
                 <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Name" {...field} value={field.value || ""} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* Username Input */}
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input placeholder="Username" {...field} value={field.value || ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

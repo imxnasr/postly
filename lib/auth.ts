@@ -1,9 +1,8 @@
 import { db } from "@/db";
+import * as schema from "@/db/schema";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import * as schema from "@/db/schema";
 import { nextCookies } from "better-auth/next-js";
-import { username } from "better-auth/plugins/username";
 
 export const auth = betterAuth({
   // Adapter for the database
@@ -16,6 +15,12 @@ export const auth = betterAuth({
   emailAndPassword: { enabled: true },
   account: {
     accountLinking: { enabled: true },
+  },
+  socialProviders: {
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+    },
   },
   user: {
     additionalFields: {
@@ -38,17 +43,5 @@ export const auth = betterAuth({
   },
   baseURL: process.env.NEXT_PUBLIC_APP_URL!,
   secret: process.env.BETTER_AUTH_SECRET!,
-  plugins: [
-    nextCookies(),
-    username({
-      // Configure the username plugin options
-      minUsernameLength: 3,
-      maxUsernameLength: 30,
-      usernameValidator: (username: string) => {
-        // Validate the username
-        const regex = /^[a-zA-Z0-9_]+$/;
-        return regex.test(username);
-      },
-    }),
-  ],
+  plugins: [nextCookies()],
 });

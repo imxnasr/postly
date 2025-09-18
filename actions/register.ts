@@ -5,7 +5,6 @@ import { APIError } from "better-auth/api";
 
 interface data {
   name: string;
-  username: string;
   email: string;
   password: string;
 }
@@ -21,12 +20,7 @@ export const register = async (data: data): Promise<RegisterResponse> => {
   } catch (error) {
     if (error instanceof APIError) {
       console.warn("Error signing up:", error.body?.code, error.body?.message);
-      if (error.body?.code === "USERNAME_IS_ALREADY_TAKEN_PLEASE_TRY_ANOTHER") {
-        return {
-          success: false,
-          message: "Username is already taken.",
-        };
-      } else if (error.body?.code === "USER_ALREADY_EXISTS") {
+      if (error.body?.code === "USER_ALREADY_EXISTS") {
         return {
           success: false,
           message: "User already exists.",

@@ -24,10 +24,6 @@ export default ({ userInfo }: any) => {
 
   const formSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be less than 50 characters"),
-    username: z
-      .string()
-      .min(2, "Username must be at least 2 characters")
-      .max(30, "Username must be less than 30 characters"),
     email: z.email("Invalid email").transform((email) => email.toLowerCase()),
     bio: z.string().max(200, "Bio must be less than 200 characters"),
   });
@@ -38,7 +34,6 @@ export default ({ userInfo }: any) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: userInfo?.name || "",
-      username: userInfo?.username || "",
       email: userInfo?.email || "",
       bio: userInfo?.bio || "",
     },
@@ -50,7 +45,6 @@ export default ({ userInfo }: any) => {
       // const res = await updateUser(data);
       const res = await updateUser({
         name: data.name,
-        username: data.username,
         bio: data.bio,
       });
       if (res.data?.status) {
@@ -80,21 +74,6 @@ export default ({ userInfo }: any) => {
                 <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Name" {...field} value={field.value || ""} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Username Input */}
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input placeholder="Username" {...field} value={field.value || ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
