@@ -1,6 +1,7 @@
 "use client";
 
 import { register } from "@/actions/register";
+import signinGithub from "@/actions/signin-github";
 import { Loader } from "@/components/Loader";
 import { Button, Input, Separator } from "@/components/ui";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form";
@@ -34,7 +35,7 @@ export default () => {
     resolver: zodResolver(formSchema),
   });
 
-  const onSbumit = async (formData: FormSchema) => {
+  const onSubmit = async (formData: FormSchema) => {
     setIsPending(true);
     const res = await register(formData);
     if (res.success) {
@@ -48,36 +49,12 @@ export default () => {
 
   const signInWithGitHub = async (e: FormEvent) => {
     e.preventDefault();
-    try {
-      const data = await signIn.social({
-        provider: "github",
-        fetchOptions: {
-          onRequest: () => {
-            setIsPending(true);
-          },
-          onResponse: () => {
-            setIsPending(false);
-          },
-          onSuccess: () => {
-            toast.success("Successfully signed in with GitHub.");
-            redirect("/");
-          },
-          onError: (ctx) => {
-            toast.error(ctx.error.message);
-          },
-        },
-      });
-      console.log("SIGN IN WITH GITHUB", data);
-    } catch (error: any) {
-      console.log("ERROR", JSON.parse(error));
-    } finally {
-      setIsPending(false);
-    }
+    await signinGithub(setIsPending);
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSbumit)} className="max-w-xl m-auto mt-8" autoComplete="on">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-xl m-auto mt-8" autoComplete="on">
         <h3 className="text-2xl font-bold mb-5">Register</h3>
         {/* Inputs */}
         <div className="space-y-3">

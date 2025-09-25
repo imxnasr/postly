@@ -1,13 +1,14 @@
 "use client";
 
 import { login } from "@/actions/login";
+import signinGithub from "@/actions/signin-github";
 import { Loader } from "@/components/Loader";
-import { Button, Input } from "@/components/ui";
+import { Button, Input, Separator } from "@/components/ui";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -38,12 +39,21 @@ export default () => {
     setIsPending(false);
   };
 
+  const signInWithGitHub = async (e: FormEvent) => {
+    e.preventDefault();
+    await signinGithub(setIsPending);
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-xl m-auto mt-8" autoComplete="on">
         <h3 className="text-2xl font-bold mb-5">Login</h3>
         {/* Inputs */}
         <div className="space-y-3">
+          <Button type="button" onClick={signInWithGitHub} variant="secondary" className="w-full " disabled={isPending}>
+            {isPending ? <Loader /> : "GitHub"}
+          </Button>
+          <Separator className="my-6" />
           {/* Email Input */}
           <FormField
             control={form.control}
