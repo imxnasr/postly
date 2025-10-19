@@ -27,13 +27,16 @@ export default () => {
 
   const onSubmit = async (data: any) => {
     setIsPending(true);
-    const res = await createPost(data);
-    if (res.success) {
-      toast.success(res.message);
-      form.reset();
-    } else {
-      toast.error(res.message);
-    }
+    // const res = await createPost(data);
+    // if (res.success) {
+    //   toast.success(res.message);
+    //   form.reset();
+    // } else {
+    //   toast.error(res.message);
+    // }
+
+    form.reset();
+
     setIsPending(false);
   };
 
@@ -67,7 +70,7 @@ export default () => {
               <FormItem>
                 <FormLabel>Body</FormLabel>
                 <FormControl>
-                  <Tiptap onChange={field.onChange} />
+                  <Tiptap onChange={field.onChange} value={field.value || ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

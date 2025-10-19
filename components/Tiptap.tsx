@@ -4,8 +4,15 @@ import { Placeholder } from "@tiptap/extensions";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Toolbar from "./Toolbar";
+import { useEffect } from "react";
 
-const Tiptap = ({ onChange }: { onChange: (value: string) => void }) => {
+const Tiptap = ({ onChange, value }: { onChange: (value: string) => void; value: string }) => {
+  useEffect(() => {
+    if (value.length < 1) {
+      editor?.commands.clearContent();
+    }
+  }, [value]);
+
   const editor = useEditor({
     enableInputRules: false,
     enablePasteRules: false,
