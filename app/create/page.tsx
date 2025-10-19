@@ -27,15 +27,13 @@ export default () => {
 
   const onSubmit = async (data: any) => {
     setIsPending(true);
-    // const res = await createPost(data);
-    // if (res.success) {
-    //   toast.success(res.message);
-    //   form.reset();
-    // } else {
-    //   toast.error(res.message);
-    // }
-
-    form.reset();
+    const res = await createPost(data);
+    if (res.success) {
+      toast.success(res.message);
+      form.reset();
+    } else {
+      toast.error(res.message);
+    }
 
     setIsPending(false);
   };
