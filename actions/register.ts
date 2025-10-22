@@ -16,7 +16,12 @@ interface RegisterResponse {
 
 export const register = async (data: data): Promise<RegisterResponse> => {
   try {
-    await auth.api.signUpEmail({ body: data });
+    const username = data.email.split("@")[0] + "_" + Math.random().toString(36).slice(2, 8);
+    const body = {
+      ...data,
+      username,
+    };
+    await auth.api.signUpEmail({ body });
   } catch (error) {
     if (error instanceof APIError) {
       console.warn("Error signing up:", error.body?.code, error.body?.message);

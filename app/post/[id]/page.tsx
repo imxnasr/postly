@@ -81,7 +81,7 @@ export default async ({ params }: { params: Promise<{ id: string }> }) => {
       {/*Comment section*/}
       <form className="">
         <h3 className="text-2xl font-semibold ">Comments</h3>
-        <Textarea className="mt-4 min-h-40 text-xl" placeholder="Leave a comment..." />
+        <Textarea className="mt-4 text-xl" placeholder="Leave a comment..." />
       </form>
       <Button className="mt-4" type="submit">
         Comment
