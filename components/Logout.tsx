@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import { signOut } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Loader } from "./Loader";
 import {
   Button,
   Dialog,
@@ -14,9 +15,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui";
-import { Loader } from "./Loader";
 
-export const Logout = () => {
+export const Logout = ({ disabled } = { disabled: false }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const handleLogout = async () => {
@@ -32,7 +32,7 @@ export const Logout = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button type="button" className="w-full mt-6" variant="destructive">
+        <Button type="button" className="w-full mt-6" variant="destructive" disabled={disabled}>
           Logout
         </Button>
       </DialogTrigger>
