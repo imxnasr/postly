@@ -43,6 +43,13 @@
       "when": 1761160393067,
       "tag": "0005_burly_nitro",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1761481761104,
+      "tag": "0006_friendly_hairball",
+      "breakpoints": true
     }
   ]
 }

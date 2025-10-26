@@ -121,6 +121,23 @@ export const postLikes = pgTable(
   (table) => [primaryKey({ columns: [table.userId, table.postId] })]
 );
 
+export const postComments = pgTable("post_comments", {
+  postId: text("post_id")
+    .notNull()
+    .references(() => post.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at")
+    .$defaultFn(() => new Date())
+    .notNull(),
+  updatedAt: timestamp("updated_at")
+    .$defaultFn(() => new Date())
+    .$onUpdateFn(() => new Date())
+    .notNull(),
+});
+
 // Relations
 export const userRelations = relations(user, ({ many }) => ({
   post: many(post),
@@ -132,6 +149,7 @@ export const postRelations = relations(post, ({ one, many }) => ({
   tagToPost: many(tagToPost),
   savedPost: many(savedPost),
   postLikes: many(postLikes),
+  postComments: many(postComments),
 }));
 
 export const savedPostRelations = relations(savedPost, ({ one }) => ({
